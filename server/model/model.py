@@ -1,20 +1,34 @@
 import pandas as pd
 import numpy as np
-
-import os
+import joblib
 from pathlib import Path
 
 
-class Model():
+class Model:
     def __init__(self):
-        # Get the path relative to this file
+       
         current_dir = Path(__file__).parent.parent
         data_path = current_dir / 'data' / 'heart_data.csv'
-        self.data = pd.read_csv(data_path)
-        self.data = self.data.dropna()
-        self.data = self.data.drop_duplicates()
-        self.data = self.data.reset_index(drop=True)
+        model_path = current_dir / 'model' / 'model.pkl'
+
         
+        self.data = pd.read_csv(data_path).dropna().drop_duplicates().reset_index(drop=True)
+
+        if model_path.exists():
+            self.loaded_model = joblib.load(model_path)
+        else:
+            raise FileNotFoundError(f"Model file not found at {model_path}")
+
+    def predict(self, features) -> int:
         
-    def predict(self,  ) -> int:
-        return np.random.randint(0, 100)
+        print(features)
+        
+        input_df = pd.DataFrame([features])
+    
+        print(input_df)
+        
+        final_prediction = self.loaded_model.predict(input_df)
+        
+        print(final_prediction[0])
+       
+        return int(final_prediction[0])
