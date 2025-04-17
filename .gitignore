@@ -72,12 +72,12 @@ coverage.xml
 .ipynb_checkpoints
 
 # Data files
-*.csv
+
 *.dat
 *.db
 *.sqlite
 *.h5
-*.pkl
+
 
 # Model files (optional, you might want to include these)
 # *.joblib
